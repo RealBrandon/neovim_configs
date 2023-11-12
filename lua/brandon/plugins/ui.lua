@@ -5,8 +5,16 @@ return {
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
             options = {
-                theme = "tokyonight",
+                theme = "catppuccin",
             },
         },
+    },
+
+    -- navic
+    {
+        "SmiteshP/nvim-navic",
+        dependencies = { "neovim/nvim-lspconfig" },
+        -- Enable hightlight to work with Catppuccin theme.
+        opts = { hightlight = true },
     },
 }

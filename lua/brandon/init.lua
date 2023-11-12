@@ -3,7 +3,8 @@ require("brandon.keymaps")
 require("brandon.options")
 require("brandon.pkg_mgr")
 
-vim.cmd[[colorscheme tokyonight]]
+vim.cmd[[colorscheme catppuccin]]
 
 require("brandon.lsp")
+require("brandon.cmp")
 
