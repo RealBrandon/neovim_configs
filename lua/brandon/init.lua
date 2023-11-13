@@ -5,6 +5,5 @@ require("brandon.pkg_mgr")
 
 vim.cmd[[colorscheme catppuccin]]
 
-require("brandon.lsp")
-require("brandon.cmp")
+require("brandon.configs")
 
