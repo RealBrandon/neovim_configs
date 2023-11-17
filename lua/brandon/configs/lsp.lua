@@ -8,9 +8,10 @@ local lsp_zero = require("lsp-zero")
 lsp_zero.on_attach(function(client, bufnr)
     local opts = {buffer = bufnr}
 
-    -- see :help lsp-zero-keybindings
-    -- to learn the available actions
     lsp_zero.default_keymaps(opts)
+    -- Unbind K and bind H to display hover info
+    vim.keymap.del("n", "K", opts)
+    vim.keymap.set("n", "H", function() vim.lsp.buf.hover() end, opts)
 
     -- Keymamp to format the current buffer
     -- using all active servers with formatting capabilities

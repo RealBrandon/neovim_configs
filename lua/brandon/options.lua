@@ -5,9 +5,8 @@ vim.g.loaded_netrwPlugin = 1
 local opt = vim.opt
 
 opt.number = true
-opt.wrap = false
-opt.scrolloff = 8
 opt.termguicolors = true
+-- Enable nvim-navic
 opt.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 
 opt.tabstop = 4
@@ -20,3 +19,8 @@ opt.incsearch = true
 opt.hlsearch = true
 opt.ignorecase = true
 opt.smartcase = true
+
+opt.scrolloff = 8
+opt.wrap = false
+opt.undofile = true
+opt.completeopt = "menuone,noselect"
