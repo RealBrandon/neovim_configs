@@ -1,20 +1,18 @@
 return {
-
-
     -- LSP
     {
         "neovim/nvim-lspconfig",
         dependencies = {
             {
                 "williamboman/mason-lspconfig.nvim",
-                config = true,
-                dependencies = { "williamboman/mason.nvim", config = true },
+                opts = {},
+                dependencies = { "williamboman/mason.nvim", opts = {} },
             },
 
             { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
 
             -- Useful status updates for LSP
-            { "j-hui/fidget.nvim",         config = true },
+            { "j-hui/fidget.nvim",         opts = {} },
 
             -- Additional lua configuration
             --"folke/neodev.nvim",
@@ -69,9 +67,15 @@ return {
         -- Enable `lukas-reineke/indent-blankline.nvim`
         -- See `:help ibl`
         main = "ibl",
-        config = true,
+        opts = {}
     },
 
     -- "gc" to comment visual regions/lines
-    { "numToStr/Comment.nvim", config = true },
+    { "numToStr/Comment.nvim", opts = {} },
+
+    {
+        "windwp/nvim-autopairs",
+        event = "InsertEnter",
+        opts = {} -- this is equalent to setup({}) function
+    }
 }

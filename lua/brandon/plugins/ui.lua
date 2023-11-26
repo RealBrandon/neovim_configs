@@ -17,7 +17,4 @@ return {
         -- Enable hightlight to work with Catppuccin theme.
         opts = { hightlight = true },
     },
-
-    -- Dependencies
-    { "nvim-tree/nvim-web-devicons", lazy = true },
 }
