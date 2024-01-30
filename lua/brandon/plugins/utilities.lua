@@ -1,11 +1,4 @@
 return {
-    -- nvim-tree
-    {
-        "nvim-tree/nvim-tree.lua",
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-        config = true,
-    },
-
     -- Useful plugin to show you pending keybinds.
     { "folke/which-key.nvim", config = true },
 
