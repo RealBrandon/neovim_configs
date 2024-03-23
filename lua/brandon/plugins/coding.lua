@@ -9,10 +9,8 @@ return {
                 dependencies = { "williamboman/mason.nvim", opts = {} },
             },
 
-            { "VonHeikemen/lsp-zero.nvim", branch = "v3.x" },
-
             -- Useful status updates for LSP
-            { "j-hui/fidget.nvim",         opts = {} },
+            { "j-hui/fidget.nvim", opts = {} },
 
             -- Additional lua configuration
             --"folke/neodev.nvim",
@@ -36,7 +34,6 @@ return {
     },
 
     -- Debugging
-    { "mfussenegger/nvim-dap" },
     {
         "rcarriga/nvim-dap-ui",
         dependencies = { "mfussenegger/nvim-dap" }

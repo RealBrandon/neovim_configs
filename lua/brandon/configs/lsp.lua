@@ -3,23 +3,6 @@
 -- 2. mason-lspconfig.nvim
 -- 3. Setup servers via lspconfig
 
-local lsp_zero = require("lsp-zero")
-
-lsp_zero.on_attach(function(client, bufnr)
-    local opts = {buffer = bufnr}
-
-    lsp_zero.default_keymaps(opts)
-    -- Unbind K and bind H to display hover info
-    vim.keymap.del("n", "K", opts)
-    vim.keymap.set("n", "H", function() vim.lsp.buf.hover() end, opts)
-
-    -- Keymamp to format the current buffer
-    -- using all active servers with formatting capabilities
-    --vim.keymap.set({"n", "x"}, "<leader>fmt", function()
-    --    vim.lsp.buf.format({async = false, timeout_ms = 10000})
-    --end, opts)
-end)
-
 -- Common configurations for all language servers
 local navic = require("nvim-navic")
 
@@ -82,19 +65,19 @@ require('which-key').register {
     ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 
-lsp_zero.set_server_config({
-    on_attach = on_attach,
-})
-
 -- Setup language servers
-require("mason-lspconfig").setup({
-    ensure_installed = {"rust_analyzer", "lua_ls", "pylsp"},
-    handlers = {
-        lsp_zero.default_setup,
-        lua_ls = function()
-            -- Returns settings specific to Neovim for the lua language server, lua_ls.
-            local lua_opts = lsp_zero.nvim_lua_ls()
-            require("lspconfig").lua_ls.setup(lua_opts)
-        end,
-    }
-})
+require("mason-lspconfig").setup_handlers {
+    -- The first entry (without a key) will be the default handler
+    -- and will be called for each installed server that doesn't have
+    -- a dedicated handler.
+    function (server_name) -- default handler (optional)
+        require("lspconfig")[server_name].setup {}
+    end,
+    -- Next, you can provide a dedicated handler for specific servers.
+    -- For example, a handler override for the `rust_analyzer`:
+    --["rust_analyzer"] = function ()
+        --require("rust-tools").setup {}
+    --end
+}
+-- If you use mason-lspconfig, make sure you don't also manually set up servers
+-- directly via `lspconfig` as this will cause servers to be set up more than once.
