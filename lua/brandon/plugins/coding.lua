@@ -13,7 +13,7 @@ return {
             { "j-hui/fidget.nvim", opts = {} },
 
             -- Additional lua configuration
-            --"folke/neodev.nvim",
+            "folke/neodev.nvim",
         },
     },
 
