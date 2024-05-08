@@ -4,8 +4,5 @@ vim.g.mapleader = " "
 require("brandon.pkg_mgr")
 require("brandon.options")
 require("brandon.keymaps")
-
-vim.cmd[[colorscheme catppuccin]]
-
 require("brandon.configs")
 

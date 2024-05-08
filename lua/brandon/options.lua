@@ -6,6 +6,7 @@ opt.signcolumn = "yes"
 opt.termguicolors = true
 -- Enable nvim-navic
 opt.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+vim.cmd[[colorscheme catppuccin]]
 
 opt.tabstop = 4
 opt.softtabstop = 4

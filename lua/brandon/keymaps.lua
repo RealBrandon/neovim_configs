@@ -15,3 +15,14 @@ vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous dia
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+-- Keymaps for copying from and pasting to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', { desc = "Yank to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>d", '"+d', { desc = "Cut to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>D", '"+D', { desc = "Cut to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>x", '"+x', { desc = "Cut to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>X", '"+X', { desc = "Cut to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>P", '"+P', { desc = "Paste from system clipboard" })
+
