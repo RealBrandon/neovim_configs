@@ -1,13 +1,35 @@
--- It is important that you set up the plugins in the following order:
--- 1. mason.nvim
--- 2. mason-lspconfig.nvim
--- 3. Set up servers via lspconfig
-
 -- Common configurations for all language servers
-local navic = require("nvim-navic")
 
--- [[ Configure LSP ]]
---  This function gets run when an LSP connects to a particular buffer.
+-- Document existing key chains
+require("which-key").add {
+    { "<leader>c", group = "[C]ode" },
+    { "<leader>c_", hidden = true },
+    { "<leader>d", group = "[D]ocument" },
+    { "<leader>d_", hidden = true },
+    { "<leader>g", group = "[G]it" },
+    { "<leader>g_", hidden = true },
+    { "<leader>h", group = "More git" },
+    { "<leader>h_", hidden = true },
+    { "<leader>r", group = "[R]ename" },
+    { "<leader>r_", hidden = true },
+    { "<leader>s", group = "[S]earch" },
+    { "<leader>s_", hidden = true },
+    { "<leader>w", group = "[W]orkspace" },
+    { "<leader>w_", hidden = true },
+    -- ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
+    -- ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+    -- ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
+    -- ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
+    -- ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
+    -- ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
+    -- ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+}
+
+-- Setup neovim lua configuration
+require("neodev").setup()
+
+-- This function gets run when an LSP connects to a particular buffer.
+local navic = require("nvim-navic")
 local on_attach = function(client, bufnr)
     if client.server_capabilities.documentSymbolProvider then
         navic.attach(client, bufnr)
@@ -54,88 +76,43 @@ local on_attach = function(client, bufnr)
     end, { desc = "Format current buffer with LSP" })
 end
 
--- Document existing key chains
-require("which-key").add {
-    { "<leader>c", group = "[C]ode" },
-    { "<leader>c_", hidden = true },
-    { "<leader>d", group = "[D]ocument" },
-    { "<leader>d_", hidden = true },
-    { "<leader>g", group = "[G]it" },
-    { "<leader>g_", hidden = true },
-    { "<leader>h", group = "More git" },
-    { "<leader>h_", hidden = true },
-    { "<leader>r", group = "[R]ename" },
-    { "<leader>r_", hidden = true },
-    { "<leader>s", group = "[S]earch" },
-    { "<leader>s_", hidden = true },
-    { "<leader>w", group = "[W]orkspace" },
-    { "<leader>w_", hidden = true },
-    -- ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-    -- ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
-    -- ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
-    -- ["<leader>h"] = { name = "More git", _ = "which_key_ignore" },
-    -- ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
-    -- ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
-    -- ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
-}
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
---
---  If you want to override the default filetypes that your language server will attach to you can
---  define the property "filetypes" to the map in question.
-local servers = {
-    -- clangd = {},
-    -- gopls = {},
-    -- pyright = {},
-    -- rust_analyzer = {},
-    -- tsserver = {},
-    -- html = { filetypes = { "html", "twig", "hbs"} },
-    lua_ls = {
-        Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-        }
-    },
-
-    pylsp = {
-        pylsp = {
-            plugins = {
-                autopep8 = { enabled = false },
-                pydocstyle = { enabled = false },
-            },
-        }
-    },
-}
-
--- Setup neovim lua configuration
-require("neodev").setup()
-
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
--- Setup language servers
--- If you use mason-lspconfig, make sure you don"t also manually set up servers
--- directly via `lspconfig` as this will cause servers to be set up more than once.
-require("mason-lspconfig").setup_handlers {
-    -- The first entry (without a key) will be the default handler
-    -- and will be called for each installed server that doesn"t have
-    -- a dedicated handler.
-    function (server_name) -- default handler (optional)
-        require("lspconfig")[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
+-- Set up default configurations for all language servers.
+vim.lsp.config('*', {
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
+-- Override configurations for some language servers.
+local servers = {
+    lua_ls = {
+        settings = {
+            Lua = {
+                workspace = { checkThirdParty = false },
+                telemetry = { enable = false },
+            }
         }
-    end,
-    -- Next, you can provide a dedicated handler for specific servers.
-    -- For example, a handler override for the `rust_analyzer`:
-    --["rust_analyzer"] = function ()
-        --require("rust-tools").setup {}
-    --end
+    },
+
+    pylsp = {
+        settings = {
+            pylsp = {
+                plugins = {
+                    autopep8 = { enabled = false },
+                    pydocstyle = { enabled = false },
+                },
+            }
+        }
+    },
 }
+
+for server_name in pairs(servers)
+    do
+        vim.lsp.config(server_name, {
+            settings = servers[server_name].settings,
+            filetypes = servers[server_name].filetypes,
+        })
+    end
