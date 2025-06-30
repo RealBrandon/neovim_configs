@@ -3,17 +3,20 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            {
-                "williamboman/mason-lspconfig.nvim",
-                opts = {},
-                dependencies = { "williamboman/mason.nvim", opts = {} },
-            },
-
             -- Useful status updates for LSP
             { "j-hui/fidget.nvim", opts = {} },
 
             -- Additional lua configuration
             "folke/neodev.nvim",
+        },
+    },
+
+    {
+        "mason-org/mason-lspconfig.nvim",
+        opts = {},
+        dependencies = {
+            { "mason-org/mason.nvim", opts = {} },
+            "neovim/nvim-lspconfig",
         },
     },
 
@@ -40,7 +43,7 @@ return {
     },
 
     {
-        -- Highlight, edit, and navigate code
+    -- Highlight, edit, and navigate code
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
             "nvim-treesitter/nvim-treesitter-textobjects",
