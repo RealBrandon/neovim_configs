@@ -2,7 +2,11 @@ require("brandon.configs.lsp")
 require("brandon.configs.cmp")
 require("brandon.configs.telescope")
 require("brandon.configs.treesitter")
-require("brandon.configs.oil")
+
+-- Configure Oil
+require("oil").setup({
+    delete_to_trash = true,
+})
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
